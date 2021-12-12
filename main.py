@@ -7,6 +7,7 @@ from Grid import Grid_Class
 from FileReader import fileReaderClass
 from ChromosomePolulation import Chromosome_Population_Class
 from Agent import Agent_Class
+from Pathfinder import Pathfinder_Class
 
 """
 Gene Movement Correlation:
@@ -15,7 +16,6 @@ Gene Movement Correlation:
 10 - Down
 11 - Left
 """
-
 
 def main():
 
@@ -28,48 +28,29 @@ def main():
     # Init file reader and retrieve contents:
     file_reader = fileReaderClass("MazeFilesForLab8/Lab8TerrainFile1.txt")
 
-    # Init Grid class:
-    grid = Grid_Class(
-        file_reader.contents_of_file.pop(0),
-        file_reader.contents_of_file.pop(0),
-        file_reader.contents_of_file,
-        window.screen)
+    # Init GA Pathfinder:
+    pathfinder = Pathfinder_Class(
+        10, # population size
+        16, # chromosome length
+        file_reader.contents_of_file.pop(0), # grid width
+        file_reader.contents_of_file.pop(0), # grid height
+        file_reader.contents_of_file,        # grid values (0, 1, 2, or 3)
+        window.screen                        # screen
+        )
 
+    # Use Pathfinder to get the fitness values for all chromosomes in this population:
+    pathfinder.execute_population([0, 1])
 
-    # Init Chromosome population:
-    population = Chromosome_Population_Class(4, 10)
-    print(population.chromosomes)
-
-    # Init Agent and set current pos.
-    agent = Agent_Class()
-    agent.current_pos = grid.start_pos
-
-    # # Pathfinder for one chromosome:
-    print("Current Pos :", agent.current_pos)
-    for gene in population.chromosomes[0]:
-        CURRENT_MOVE = population.gene_to_move(gene)  # Generate next move array
-        print("Current Gene: ", gene)
-        print("Current Move:", CURRENT_MOVE)
-
-        if agent.is_out_of_bounds(CURRENT_MOVE, grid.width, grid.height) == True:
-            print("Out of Bounds.")
-            continue
-        if agent.is_hitting_obstacle(CURRENT_MOVE, grid.value_array) == True:
-            print("Hit Obstacle.")
-            continue
-        else:
-            agent.current_pos[0] = agent.current_pos[0] + CURRENT_MOVE[0]
-            agent.current_pos[1] = agent.current_pos[1] + CURRENT_MOVE[1]
-            if grid.path_array[agent.current_pos[0]][agent.current_pos[1]] != 2 and grid.path_array[agent.current_pos[0]][agent.current_pos[1]] != 3:
-                grid.path_array[agent.current_pos[0]][agent.current_pos[1]] = 4
-            print("Moved to: ", agent.current_pos)
 
     # Game Loop:
     while True:
-        grid.draw_rect_array(window.screen)
+        pathfinder.grid.draw_rect_array(window.screen)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
+                del pathfinder
+                del file_reader
+                del window
                 pygame.quit()
                 sys.exit()
         pygame.display.update()
