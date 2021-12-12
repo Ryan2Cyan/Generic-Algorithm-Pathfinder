@@ -48,9 +48,6 @@ def main():
     # Use Pathfinder to get the fitness values for all chromosomes in this population:
     pathfinder.execute_population()
 
-    numb_array = []
-
-
     # Game Loop:
     while True:
         # print grid:
