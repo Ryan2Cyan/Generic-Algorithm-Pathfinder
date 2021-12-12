@@ -20,7 +20,7 @@ class Pathfinder_Class:
 
     # This function executes the moves of all chromosomes in a population
     # and returns an array of 'fitness' for each chromosome:
-    def execute_population(self, start_pos):
+    def execute_population(self):
         for chromosome in self.population.chromosomes:
             print(chromosome, "\n")
 
@@ -52,7 +52,6 @@ class Pathfinder_Class:
                 if self.agent.current_pos == self.grid.finish_pos:
                     print("Reached End ~\n")
                     break
-
             # Calculate Fitness of chromosome:
 
 

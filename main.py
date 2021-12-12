@@ -17,6 +17,16 @@ Gene Movement Correlation:
 11 - Left
 """
 
+# sets text on the screen to be printed
+def set_text(string, coordx, coordy, fontSize): #Function to set text
+    font = pygame.font.Font('Font\JetBrainsMono-Light.ttf', fontSize)
+    #(0, 0, 0) is black, to make black text
+    text = font.render(string, True, (255, 255, 255))
+    textRect = text.get_rect()
+    textRect.right = coordx
+    textRect.top = coordy
+    return (text, textRect)
+
 def main():
 
     # Init pygame:
@@ -39,12 +49,23 @@ def main():
         )
 
     # Use Pathfinder to get the fitness values for all chromosomes in this population:
-    pathfinder.execute_population([0, 1])
+    pathfinder.execute_population()
+
 
 
     # Game Loop:
     while True:
+        # print grid:
         pathfinder.grid.draw_rect_array(window.screen)
+
+        # print 'path taken' text:
+        # want to print: i) Population ii) Fitness iii) Path
+        populationText = set_text("Population:", 390, 335, 15)
+        window.screen.blit(populationText[0], populationText[1])
+        chromosomeText = set_text("Chromosome:", 390, 355, 15)
+        window.screen.blit(chromosomeText[0], chromosomeText[1])
+        pathText = set_text("Path: [0,1]", 390, 375, 15)
+        window.screen.blit(pathText[0], pathText[1])
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
