@@ -3,10 +3,7 @@ import random
 import pygame
 import sys
 from Window import windowClass
-from Grid import Grid_Class
 from FileReader import fileReaderClass
-from ChromosomePolulation import Chromosome_Population_Class
-from Agent import Agent_Class
 from Pathfinder import Pathfinder_Class
 
 """
@@ -18,13 +15,13 @@ Gene Movement Correlation:
 """
 
 # sets text on the screen to be printed
-def set_text(string, coordx, coordy, fontSize): #Function to set text
+def set_text(message, x_coord, y_coord, fontSize): #Function to set text
     font = pygame.font.Font('Font\JetBrainsMono-Light.ttf', fontSize)
     #(0, 0, 0) is black, to make black text
-    text = font.render(string, True, (255, 255, 255))
+    text = font.render(message, True, (255, 255, 255))
     textRect = text.get_rect()
-    textRect.right = coordx
-    textRect.top = coordy
+    textRect.right = x_coord
+    textRect.top = y_coord
     return (text, textRect)
 
 def main():
@@ -33,7 +30,7 @@ def main():
     pygame.init()
     # Init pygame window:
     window = windowClass(400, 400, (0, 0, 0))
-    pygame.display.set_caption("Genetic Algorithm Pathfinder")
+    pygame.display.set_caption("A2: Genetic Algorithm Pathfinder")
 
     # Init file reader and retrieve contents:
     file_reader = fileReaderClass("MazeFilesForLab8/Lab8TerrainFile1.txt")
@@ -51,6 +48,7 @@ def main():
     # Use Pathfinder to get the fitness values for all chromosomes in this population:
     pathfinder.execute_population()
 
+    numb_array = []
 
 
     # Game Loop:
@@ -59,7 +57,7 @@ def main():
         pathfinder.grid.draw_rect_array(window.screen)
 
         # print 'path taken' text:
-        # want to print: i) Population ii) Fitness iii) Path
+        # want to display: i) Population ii) Fitness iii) Path
         populationText = set_text("Population:", 390, 335, 15)
         window.screen.blit(populationText[0], populationText[1])
         chromosomeText = set_text("Chromosome:", 390, 355, 15)

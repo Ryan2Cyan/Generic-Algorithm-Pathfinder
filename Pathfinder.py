@@ -2,6 +2,7 @@ import os.path
 import pygame
 import sys
 import random
+import numpy
 from Window import windowClass
 from Grid import Grid_Class
 from FileReader import fileReaderClass
@@ -19,8 +20,8 @@ class Pathfinder_Class:
         self.agent = Agent_Class(self.grid.start_pos)
 
     # This function executes the moves of all chromosomes in a population
-    # and returns an array of 'fitness' for each chromosome:
     def execute_population(self):
+        
         for chromosome in self.population.chromosomes:
             print(chromosome, "\n")
 
@@ -52,7 +53,50 @@ class Pathfinder_Class:
                 if self.agent.current_pos == self.grid.finish_pos:
                     print("Reached End ~\n")
                     break
+
             # Calculate Fitness of chromosome:
+            self.population.fitness_array.append(self.calculate_fitness(self.agent.current_pos, self.grid.finish_pos))
+
+            # Select parent chromosomes:
+            parents = self.roulette_wheel_select(self.population.fitness_array)
+            print(parents)
+
+
+    # Calculates the fitness of a single chromosome:
+    def calculate_fitness(self, final_position, end_goal):
+        y_offset = abs(end_goal[0] - final_position[0])
+        x_offset = abs(end_goal[1] - final_position[1])
+        return round((1 / (x_offset + y_offset + 1)),2)
+
+    # Roulette wheel chromosome selector - returns an array of indexes for chosen parent chromosomes:
+    def roulette_wheel_select(self, fitness_array):
+
+        # Calculate total fitness:
+        total_fitness = round(sum(fitness_array),2)
+
+        # Calculate probability for each fitness:
+        fitness_probabilities = []
+        for fitness_value in fitness_array:
+            fitness_probabilities.append(round((fitness_value / total_fitness) * 100,2))
+
+        # Make array of indexes to reference what chromosomes will be picked:
+        chromosome_indexes = [x for x in range(len(fitness_array))]
+
+        # Choose parent chromosomes:
+        parents_indexes = (numpy.random.choice(chromosome_indexes, 20, fitness_probabilities))
+
+        # Return the parent chromosomes
+        chosen_chromosomes = []
+        for index in parents_indexes:
+            chosen_chromosomes.append(self.population.chromosomes[index])
+
+        return chosen_chromosomes
+
+
+
+
+
+
 
 
 

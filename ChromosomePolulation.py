@@ -8,6 +8,7 @@ class Chromosome_Population_Class:
     # Constructor:
     def __init__(self, population_size, gene_length):
         self.chromosomes = self.gen_population(population_size, gene_length)
+        self.fitness_array = []
 
     # Init population:
     def gen_population(self, pop_size, length):
