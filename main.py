@@ -1,4 +1,5 @@
 import pygame
+import sys
 from Window import windowClass
 from FileReader import fileReaderClass
 from Pathfinder import Pathfinder_Class
@@ -28,6 +29,7 @@ def main():
     WINDOW_HEIGHT = 400
     WINDOW_COLOR = Grid_Color.BLACK.value
     TITLE = "A2: Genetic Algorithm Pathfinder"
+    GRID_FILE_PATH = "MazeFilesForLab8/Lab8TerrainFile1.txt"
 
     # Init pygame:
     pygame.init()
@@ -37,7 +39,7 @@ def main():
     pygame.display.set_caption(TITLE)
 
     # Init file reader and retrieve contents:
-    file_reader = fileReaderClass("MazeFilesForLab8/Lab8TerrainFile1.txt")
+    file_reader = fileReaderClass(GRID_FILE_PATH)
 
     # Init GA Pathfinder:
     POPULATION_SIZE = 10

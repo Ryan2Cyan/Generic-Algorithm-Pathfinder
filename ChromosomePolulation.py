@@ -41,6 +41,6 @@ class Chromosome_Population_Class:
                 return [1, 0]
             case '11': # Left
                 return [0, -1]
-            case '_':
+            case _:
                 print("Invalid Gene:")
                 return [0, 0]

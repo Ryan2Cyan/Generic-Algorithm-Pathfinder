@@ -65,6 +65,9 @@ class Grid_Class:
                 return Grid_Color.BLUE.value
             case Grid_Space.PATH.value:
                 return Grid_Color.PINK.value
+            case _:
+                print("Invalid Gene:")
+                return [0, 0]
 
     # Find the agent's starting point:
     def find_start_point(self, GRID_ARRAY, HEIGHT, WIDTH):
