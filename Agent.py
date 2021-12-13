@@ -1,13 +1,10 @@
-import os.path
-import pygame
-import sys
 
 class Agent_Class:
 
     # Constructor:
-    def __init__(self, starting_pos):
+    def __init__(self, STARTING_POS):
         self.current_pos = [[],[]]
-        self.starting_pos = starting_pos
+        self.starting_pos = STARTING_POS
 
     # Check if the next move will make the agent out of bounds:
     def is_out_of_bounds(self, MOVE_COORDS, WIDTH, HEIGHT):

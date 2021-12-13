@@ -1,6 +1,4 @@
-import os.path
 import pygame
-import sys
 
 class windowClass:
 

@@ -1,7 +1,4 @@
-import os.path
-import random
 import pygame
-import sys
 from Window import windowClass
 from FileReader import fileReaderClass
 from Pathfinder import Pathfinder_Class
@@ -26,19 +23,28 @@ def set_text(message, x_coord, y_coord, fontSize): #Function to set text
 
 def main():
 
+    WINDOW_WIDTH = 400
+    WINDOW_HEIGHT = 400
+    WINDOW_COLOR = (0, 0, 0)
+    TITLE = "A2: Genetic Algorithm Pathfinder"
+
     # Init pygame:
     pygame.init()
+
     # Init pygame window:
-    window = windowClass(400, 400, (0, 0, 0))
-    pygame.display.set_caption("A2: Genetic Algorithm Pathfinder")
+    window = windowClass(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_COLOR)
+    pygame.display.set_caption(TITLE)
 
     # Init file reader and retrieve contents:
     file_reader = fileReaderClass("MazeFilesForLab8/Lab8TerrainFile1.txt")
 
     # Init GA Pathfinder:
+    POPULATION_SIZE = 10
+    CHROMOSOME_LENGTH = 16
+
     pathfinder = Pathfinder_Class(
-        10, # population size
-        16, # chromosome length
+        POPULATION_SIZE, # population size
+        CHROMOSOME_LENGTH, # chromosome length
         file_reader.contents_of_file.pop(0), # grid width
         file_reader.contents_of_file.pop(0), # grid height
         file_reader.contents_of_file,        # grid values (0, 1, 2, or 3)

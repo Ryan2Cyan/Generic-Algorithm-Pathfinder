@@ -1,7 +1,4 @@
-import os.path
 import random
-import pygame
-import sys
 
 class Chromosome_Population_Class:
 
