@@ -23,6 +23,8 @@ class Pathfinder_Class:
     def execute_population(self):
         i = 0
         fitness_array = []
+        
+        # For each chromosome in the current generation:
         for chromosome in self.population.chromosomes:
             print("chromosome index: ", i, "###############")
 
@@ -47,7 +49,12 @@ class Pathfinder_Class:
             print(x, " ", parents[x])
 
         # Apply crossover:
-        print(self.crossover(parents))
+        self.population.chromosomes = self.crossover(parents)
+        print("Next Generation: ")
+        for chromosome in self.population.chromosomes:
+            print(chromosome)
+
+        # Apply mutation:
 
     # Executes a chromosomes moves and returns the end position:
     def execute_chromosome_moves(self, chromosome):
@@ -101,40 +108,44 @@ class Pathfinder_Class:
 
         return chosen_chromosomes
 
+    # Takes in an array of 'parent chromosomes' and applies crossover - returning a new generation.
     def crossover(self, parents):
         i = 0
         next_population = Chromosome_Population_Class(10, 16)
         new_chromosomes = []
-        while i <= 8:
+
+        # for each chromosome pair:
+        while i < 10:
+            # Get the parent pair:
             parent1 = parents.pop(0)
             parent2 = parents.pop(0)
-
-            threshold = int(len(parent1) / 2)
-            parent1_half1 = parent1
-            del parent1_half1[threshold: len(parent1)]
-
-            parent1_half2 = parent1
-            del parent1_half2[0: threshold]
-
-            # parent2_half1 = parent2
-            # del parent2_half1[threshold: len(parent2)]
-            # parent2_half2 = parent2
-            # del parent2_half2[0: threshold]
-
-            print("parent 1 half 1:", parent1_half1)
-            print("parent 1 half 2:", parent1_half1)
-            # print("parent 1 half 1:", parent1_half1)
-            # print("parent 2 half 2:", parent1_half1)
-
+            midway_index = int(len(parent1) / 2)
+            # Crossover rate (how frequent crossover will occur):
             crossover_rate = 0.7
+
+
             if random.uniform(0,1) <= crossover_rate:
-                pass
+                # Apply crossover (cross genes of parents):
+                child1 = []
+                child2 = []
+                for x in range(len(parent1)):
+                    if x < midway_index:
+                        child1.append(parent1[x])
+                        child2.append(parent2[x])
+                    if x >= midway_index:
+                        child1.append(parent2[x])
+                        child2.append(parent1[x])
+                new_chromosomes.append(child1)
+                new_chromosomes.append(child2)
             else:
-                # copy chromosomes
+                # No crossover (copy the chromosomes):
                 new_chromosomes.append(parent1)
                 new_chromosomes.append(parent2)
             i = i + 2
+
         return new_chromosomes
+
+    def mutation(self):
 
 
 
