@@ -1,4 +1,6 @@
 import pygame
+from Utility import Grid_Color
+from Utility import Grid_Space
 
 class Grid_Class:
 
@@ -14,26 +16,26 @@ class Grid_Class:
 
     # Sorts Grid Values into a 2-D Array
     def sort_grid_array(self, WIDTH, HEIGHT, FILE_DATA_ARRAY):
-            GRID_VALUES = []
+            grid_values = []
             i = 0
 
             # create 2-D grid
             for row in range(HEIGHT):
-                GRID_VALUES.append([])
+                grid_values.append([])
                 for column in range(WIDTH):
-                    GRID_VALUES[row].append(0)
-                    GRID_VALUES[row][column] = FILE_DATA_ARRAY[i]
+                    grid_values[row].append(0)
+                    grid_values[row][column] = FILE_DATA_ARRAY[i]
                     i = i + 1
-            return GRID_VALUES
+            return grid_values
 
     # Renders grid to screen:
     def gen_rect_array(self, WIDTH, HEIGHT, SCREEN, VALUES):
-        blockSize = 40  # Set the size of the grid block
+        RECT_SIZE = 40  # Set the size of the grid block
 
         rect_array = []
-        for x in range(0, HEIGHT * blockSize, blockSize):
-            for y in range(0, WIDTH * blockSize, blockSize):
-                rect = pygame.Rect(y, x, blockSize, blockSize)
+        for x in range(0, HEIGHT * RECT_SIZE, RECT_SIZE):
+            for y in range(0, WIDTH * RECT_SIZE, RECT_SIZE):
+                rect = pygame.Rect(y, x, RECT_SIZE, RECT_SIZE)
                 rect_array.append(rect)
 
         # 2-D array of Grid Squares
@@ -42,33 +44,34 @@ class Grid_Class:
         return rect_array
 
     # Render grid the AI just moved to:
-    def draw_rect_array(self, screen):
+    def draw_rect_array(self, SCREEN):
         for row in range(self.height):
             for column in range(self.width):
                 # Grid Fill:
-                pygame.draw.rect(screen, self.grid_color(self.value_array[row][column]), self.rect_array[row][column],0)
+                pygame.draw.rect(SCREEN, self.grid_color(self.value_array[row][column]), self.rect_array[row][column],0)
                 # Grid Lines:
-                pygame.draw.rect(screen, (10, 30, 200), self.rect_array[row][column], 1)
+                pygame.draw.rect(SCREEN, (10, 30, 200), self.rect_array[row][column], 1)
 
     # Switch for Grid Square Color:
-    def grid_color(self, grid_value):
-        if grid_value == 0: # Empty Space
-            return (255, 255, 255)
-        elif grid_value == 1: # Obstacle
-            return (0, 0, 0)
-        elif grid_value == 2: # Start
-            return (10, 200, 30)
-        elif grid_value == 3: # End
-            return (10, 40, 200)
-        elif grid_value == 4: # Path
-            return (200, 150, 150)
+    def grid_color(self, GRID_VALUE):
+        match GRID_VALUE:
+            case Grid_Space.EMPTY.value:
+                return Grid_Color.WHITE.value
+            case Grid_Space.OBSTACLE.value:
+                return Grid_Color.BLACK.value
+            case Grid_Space.START.value:
+                return Grid_Color.GREEN.value
+            case Grid_Space.END.value:
+                return Grid_Color.BLUE.value
+            case Grid_Space.PATH.value:
+                return Grid_Color.PINK.value
 
     # Find the agent's starting point:
     def find_start_point(self, GRID_ARRAY, HEIGHT, WIDTH):
         starting_pos = []
         for y in range(HEIGHT):
             for x in range(WIDTH):
-                if GRID_ARRAY[y][x] == 2:
+                if GRID_ARRAY[y][x] == Grid_Space.START.value:
                     starting_pos.append(y)
                     starting_pos.append(x)
         return starting_pos
@@ -78,7 +81,7 @@ class Grid_Class:
         finishing_pos = []
         for y in range(HEIGHT):
             for x in range(WIDTH):
-                if GRID_ARRAY[y][x] == 3:
+                if GRID_ARRAY[y][x] == Grid_Space.END.value:
                     finishing_pos.append(y)
                     finishing_pos.append(x)
         return finishing_pos

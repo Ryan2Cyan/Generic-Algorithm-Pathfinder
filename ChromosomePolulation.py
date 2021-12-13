@@ -3,15 +3,15 @@ import random
 class Chromosome_Population_Class:
 
     # Constructor:
-    def __init__(self, population_size, gene_length):
-        self.chromosomes = self.gen_population(population_size, gene_length)
+    def __init__(self, POPULATION_SIZE, GENE_LENGTH):
+        self.chromosomes = self.gen_population(POPULATION_SIZE, GENE_LENGTH)
         self.fitness_array = []
 
     # Init population:
-    def gen_population(self, pop_size, length):
+    def gen_population(self, POPULATION_SIZE, LENGTH):
         all_chromosomes = []
-        for x in range(pop_size):
-            all_chromosomes.append(self.gen_chromosome(int(length / 2)))
+        for x in range(POPULATION_SIZE):
+            all_chromosomes.append(self.gen_chromosome(int(LENGTH / 2)))
         return all_chromosomes
 
     # Init single bit (as a string):
@@ -23,19 +23,24 @@ class Chromosome_Population_Class:
         return self.gen_bit() + self.gen_bit()
 
     # Init chromosome:
-    def gen_chromosome(self, gene_count):
+    def gen_chromosome(self, GENE_COUNT):
         new_chromosome = []
-        for x in range(gene_count):
+        for x in range(GENE_COUNT):
             new_chromosome.append(self.gen_gene())
         return new_chromosome
 
     # Convert a gene into a move array:
     def gene_to_move(self, GENE):
-        if GENE == '00':  # Up
-            return [-1, 0]
-        elif GENE == '01':  # Right
-            return [0, 1]
-        elif GENE == '10':  # Down
-            return [1, 0]
-        elif GENE == '11':  # Left
-            return [0, -1]
+
+        match GENE:
+            case '00': # Up
+                return [-1, 0]
+            case '01': # Right
+                return [0, 1]
+            case '10': # Down
+                return [1, 0]
+            case '11': # Left
+                return [0, -1]
+            case '_':
+                print("Invalid Gene:")
+                return [0, 0]

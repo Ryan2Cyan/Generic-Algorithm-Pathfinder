@@ -2,6 +2,7 @@ import pygame
 from Window import windowClass
 from FileReader import fileReaderClass
 from Pathfinder import Pathfinder_Class
+from Utility import Grid_Color
 
 """
 Gene Movement Correlation:
@@ -11,7 +12,7 @@ Gene Movement Correlation:
 11 - Left
 """
 
-# sets text on the screen to be printed
+# sets text on the screen to be printed - probably move to utility:
 def set_text(message, x_coord, y_coord, fontSize): #Function to set text
     font = pygame.font.Font('Font\JetBrainsMono-Light.ttf', fontSize)
     #(0, 0, 0) is black, to make black text
@@ -25,7 +26,7 @@ def main():
 
     WINDOW_WIDTH = 400
     WINDOW_HEIGHT = 400
-    WINDOW_COLOR = (0, 0, 0)
+    WINDOW_COLOR = Grid_Color.BLACK.value
     TITLE = "A2: Genetic Algorithm Pathfinder"
 
     # Init pygame:
@@ -59,7 +60,7 @@ def main():
         # print grid:
         pathfinder.grid.draw_rect_array(window.screen)
 
-        # print 'path taken' text:
+        # display text:
         # want to display: i) Population ii) Fitness iii) Path
         populationText = set_text("Population:", 390, 335, 15)
         window.screen.blit(populationText[0], populationText[1])
