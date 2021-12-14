@@ -25,7 +25,6 @@ class Pathfinder_Class:
 
             # For each chromosome in the current generation:
             for chromosome in self.population.chromosomes:
-                print("chromosome index: ", i, "###############")
 
                 START_POS = self.grid.start_pos # where the agent starts
                 GOAL_POS = self.grid.finish_pos # the end goal
@@ -36,7 +35,6 @@ class Pathfinder_Class:
 
                 # Execute all chromosome moves and return the final position of the agent:
                 final_agent_pos = self.execute_chromosome_moves(chromosome, GOAL_POS)
-                print("Final Pos of Agent: ", final_agent_pos)
                 if final_agent_pos == GOAL_POS:
                     self.current_chromosome = self.current_chromosome + (i + 1)
                     found_path = True
@@ -45,39 +43,21 @@ class Pathfinder_Class:
 
                 # Calc this chromosome's fitness and add to the fitness array:
                 fitness_array.append(self.calculate_fitness(final_agent_pos, GOAL_POS))
-                print("Fitness: ", fitness_array[i])
 
                 i = i + 1
 
             # Select parent chromosomes:
             parents = self.roulette_wheel_select(fitness_array)
-            print("Parents: ")
-            for x in range(len(parents)):
-                print(x, " ", parents[x])
 
             # Apply crossover:
             self.population.chromosomes = self.crossover(parents)
-            print("Next Generation: ")
-            for chromosome in self.population.chromosomes:
-                print(chromosome)
-            print("~~~~~~~~~~~~~~~~~~")
 
             # Apply mutation:
             self.population.chromosomes = self.mutation(self.population.chromosomes)
-            print("Next Generation (with Mutations): ")
-            for chromosome in self.population.chromosomes:
-                print(chromosome)
 
             # Increment values to keep track of generation and chromosomes:
-            print(len(self.population.chromosomes))
             self.current_chromosome = self.current_chromosome + len(self.population.chromosomes)
             self.current_gen = self.current_gen + 1
-            print("NEXT GENERATION #########################################")
-
-        print("Path Found!")
-        print("Generation: ", self.current_gen)
-        print("Chromosome: ", self.current_chromosome)
-
 
     # Executes a chromosomes moves and returns the end position:
     def execute_chromosome_moves(self, CHROMOSOME, GOAL_POS):
@@ -97,7 +77,7 @@ class Pathfinder_Class:
                 self.agent.current_pos[0] = self.agent.current_pos[0] + CURRENT_MOVE[0]
                 self.agent.current_pos[1] = self.agent.current_pos[1] + CURRENT_MOVE[1]
 
-        # Check if agent has reached the end point:
+        # Check if agent has reached the end point (final move only):
         if self.agent.current_pos == GOAL_POS:
             return self.agent.current_pos
 
