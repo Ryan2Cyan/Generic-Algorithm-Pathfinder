@@ -64,12 +64,16 @@ def main():
         pathfinder.grid.draw_rect_array(window.screen)
 
         # display text:
-        # want to display: i) Population ii) Fitness iii) Path
-        populationText = set_text("Population:", 390, 335, 15)
-        window.screen.blit(populationText[0], populationText[1])
-        chromosomeText = set_text("Chromosome:", 390, 355, 15)
-        window.screen.blit(chromosomeText[0], chromosomeText[1])
-        pathText = set_text("Path: [0,1]", 390, 375, 15)
+        # want to display: i) Population ii) Chromosome Numb iii) Path
+        population_message = "Generation: " + str(pathfinder.current_gen)
+        population_text = set_text(population_message, 390, 315, 15)
+        window.screen.blit(population_text[0], population_text[1])
+
+        chromosome_message = "Chromosome Numb: " + str(pathfinder.current_chromosome)
+        chromosome_text = set_text(chromosome_message, 390, 335, 15)
+        window.screen.blit(chromosome_text[0], chromosome_text[1])
+
+        pathText = set_text(str(path_chromosome), 390, 375, 14)
         window.screen.blit(pathText[0], pathText[1])
 
         for event in pygame.event.get():
