@@ -12,51 +12,76 @@ class Pathfinder_Class:
                  SCREEN):
         self.population = Chromosome_Population_Class(POPULATION_SIZE, CHROMOSOME_LENGTH)
         self.grid = Grid_Class(GRID_WIDTH, GRID_HEIGHT, FILE_CONTENTS, SCREEN)
-        print(self.grid.start_pos)
         self.agent = Agent_Class(self.grid.start_pos)
+        self.current_gen = 0
+        self.current_chromosome = 0
 
     # This function executes the moves of all chromosomes in a population
     def execute_population(self):
-        i = 0
-        fitness_array = []
+        found_path = False
+        while found_path == False:
+            i = 0
+            fitness_array = []
 
-        # For each chromosome in the current generation:
-        for chromosome in self.population.chromosomes:
-            print("chromosome index: ", i, "###############")
+            # For each chromosome in the current generation:
+            for chromosome in self.population.chromosomes:
+                print("chromosome index: ", i, "###############")
 
-            START_POS = self.grid.start_pos # where the agent starts
-            GOAL_POS = self.grid.finish_pos # the end goal
+                START_POS = self.grid.start_pos # where the agent starts
+                GOAL_POS = self.grid.finish_pos # the end goal
 
-            # Reset agent to start pos:
-            self.agent.current_pos[0] = START_POS[0]
-            self.agent.current_pos[1] = START_POS[1]
+                # Reset agent to start pos:
+                self.agent.current_pos[0] = START_POS[0]
+                self.agent.current_pos[1] = START_POS[1]
 
-            # Execute all chromosome moves and return the final position of the agent:
-            final_agent_pos = self.execute_chromosome_moves(chromosome, GOAL_POS)
-            print("Final Pos of Agent: ", final_agent_pos)
+                # Execute all chromosome moves and return the final position of the agent:
+                final_agent_pos = self.execute_chromosome_moves(chromosome, GOAL_POS)
+                print("Final Pos of Agent: ", final_agent_pos)
+                if final_agent_pos == GOAL_POS:
+                    self.current_chromosome = self.current_chromosome + (i + 1)
+                    found_path = True
+                    return chromosome
 
-            # Calc this chromosome's fitness and add to the fitness array:
-            fitness_array.append(self.calculate_fitness(final_agent_pos, GOAL_POS))
-            print("Fitness: ", fitness_array[i])
 
-            i = i + 1
+                # Calc this chromosome's fitness and add to the fitness array:
+                fitness_array.append(self.calculate_fitness(final_agent_pos, GOAL_POS))
+                print("Fitness: ", fitness_array[i])
 
-        # Select parent chromosomes:
-        parents = self.roulette_wheel_select(fitness_array)
-        print("Parents: ")
-        for x in range(len(parents)):
-            print(x, " ", parents[x])
+                i = i + 1
 
-        # Apply crossover:
-        self.population.chromosomes = self.crossover(parents)
-        print("Next Generation: ")
-        for chromosome in self.population.chromosomes:
-            print(chromosome)
+            # Select parent chromosomes:
+            parents = self.roulette_wheel_select(fitness_array)
+            print("Parents: ")
+            for x in range(len(parents)):
+                print(x, " ", parents[x])
 
-        # Apply mutation:
+            # Apply crossover:
+            self.population.chromosomes = self.crossover(parents)
+            print("Next Generation: ")
+            for chromosome in self.population.chromosomes:
+                print(chromosome)
+            print("~~~~~~~~~~~~~~~~~~")
+
+            # Apply mutation:
+            self.population.chromosomes = self.mutation(self.population.chromosomes)
+            print("Next Generation (with Mutations): ")
+            for chromosome in self.population.chromosomes:
+                print(chromosome)
+
+            # Increment values to keep track of generation and chromosomes:
+            print(len(self.population.chromosomes))
+            self.current_chromosome = self.current_chromosome + len(self.population.chromosomes)
+            self.current_gen = self.current_gen + 1
+            print("NEXT GENERATION #########################################")
+
+        print("Path Found!")
+        print("Generation: ", self.current_gen)
+        print("Chromosome: ", self.current_chromosome)
+
 
     # Executes a chromosomes moves and returns the end position:
     def execute_chromosome_moves(self, CHROMOSOME, GOAL_POS):
+        index = 0
         # Execute the genes (moves) in single chromosome, and see what path it takes:
         for GENE in CHROMOSOME:
             CURRENT_MOVE = self.population.gene_to_move(GENE)  # Generate next move as array
@@ -72,9 +97,10 @@ class Pathfinder_Class:
                 self.agent.current_pos[0] = self.agent.current_pos[0] + CURRENT_MOVE[0]
                 self.agent.current_pos[1] = self.agent.current_pos[1] + CURRENT_MOVE[1]
 
-            # Check if agent has reached the end point:
-            if self.agent.current_pos == GOAL_POS:
-                return self.agent.current_pos
+        # Check if agent has reached the end point:
+        if self.agent.current_pos == GOAL_POS:
+            return self.agent.current_pos
+
 
         return self.agent.current_pos
 
@@ -107,7 +133,7 @@ class Pathfinder_Class:
 
         return chosen_chromosomes
 
-    # Takes in an array of 'parent chromosomes' and applies crossover - returning a new generation.
+    # Takes in an array of 'parent chromosomes' and applies crossover - returning a new generation:
     def crossover(self, parents):
         i = 0
         next_population = Chromosome_Population_Class(10, 16)
@@ -149,8 +175,20 @@ class Pathfinder_Class:
 
         return new_chromosomes
 
-    def mutation(self):
-        pass
+    # Takes an array of chromosomes and applies mutation - returning the mutated chromosomes:
+    def mutation(self, new_population):
+        MUTATION_RATE = 0.01
+
+        # Loop through all genes and randomise some of them depending on the mutation rate:
+        for chromosome in range(len(new_population)):
+            for gene in range(len(new_population[chromosome])):
+                if random.uniform(0, 1) <= MUTATION_RATE:
+                    new_population[chromosome][gene] = self.population.gen_gene()
+
+        return new_population
+
+
+
 
 
 

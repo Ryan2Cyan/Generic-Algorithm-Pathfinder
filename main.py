@@ -55,7 +55,8 @@ def main():
         )
 
     # Use Pathfinder to get the fitness values for all chromosomes in this population:
-    pathfinder.execute_population()
+    path_chromosome = pathfinder.execute_population()
+    print("Path Chromosome :", path_chromosome)
 
     # Game Loop:
     while True:
