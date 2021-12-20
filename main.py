@@ -4,6 +4,7 @@ from Window import windowClass
 from FileReader import fileReaderClass
 from Pathfinder import Pathfinder_Class
 from Utility import Grid_Color
+import timeit
 
 """
 Gene Movement Correlation:
@@ -29,7 +30,7 @@ def main():
     WINDOW_HEIGHT = 400
     WINDOW_COLOR = Grid_Color.BLACK.value
     TITLE = "A2: Genetic Algorithm Pathfinder"
-    GRID_FILE_PATH = "MazeFilesForLab8/Lab8TerrainFile2.txt"
+    GRID_FILE_PATH = "MazeFilesForLab8/Lab8TerrainFile1.txt"
 
     # Init pygame:
     pygame.init()
@@ -42,8 +43,8 @@ def main():
     file_reader = fileReaderClass(GRID_FILE_PATH)
 
     # Init GA Pathfinder:
-    POPULATION_SIZE = 10
-    CHROMOSOME_LENGTH = 24
+    POPULATION_SIZE = 50
+    CHROMOSOME_LENGTH = 40
 
     pathfinder = Pathfinder_Class(
         POPULATION_SIZE, # population size
@@ -54,24 +55,12 @@ def main():
         window.screen                        # screen
         )
 
+
     # Use Pathfinder to get the fitness values for all chromosomes in this population:
     path_chromosome = pathfinder.execute_population()
-    print("Path Chromosome :", path_chromosome)
 
-    # start_pos = pathfinder.grid.start_pos
-    # for GENE in path_chromosome:
-    #     match GENE:
-    #         case '00':  # Up
-    #             start_pos = start_pos + [-1, 0]
-    #         case '01':  # Right
-    #             start_pos = start_pos + [0, 1]
-    #         case '10':  # Down
-    #             start_pos = start_pos + [1, 0]
-    #         case '11':  # Left
-    #             return [0, -1]
-    #         case _:
-    #             print("Invalid Gene:")
-    #             return [0, 0]
+    execution_time = timeit.timeit(lambda: pathfinder.execute_population(), number=1)
+    print(f"Execution Time:" ,float("{0:.3f}".format(execution_time * 1000)), "ms")
 
     # Game Loop:
     while True:

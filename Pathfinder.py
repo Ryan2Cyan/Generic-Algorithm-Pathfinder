@@ -5,6 +5,7 @@ from Grid import Grid_Class
 from ChromosomePolulation import Chromosome_Population_Class
 from Agent import Agent_Class
 
+
 class Pathfinder_Class:
 
     # Constructor - Note: the param 'FILE_CONTENTS' must not include the first 2 digits of the grid array (w and h):
@@ -15,6 +16,8 @@ class Pathfinder_Class:
         self.agent = Agent_Class(self.grid.start_pos)
         self.current_gen = 0
         self.current_chromosome = 0
+        self.population_size = POPULATION_SIZE
+        self.chromosome_length = CHROMOSOME_LENGTH
 
     # This function executes the moves of all chromosomes in a population
     def execute_population(self):
@@ -26,25 +29,26 @@ class Pathfinder_Class:
             # For each chromosome in the current generation:
             for chromosome in self.population.chromosomes:
 
-                START_POS = self.grid.start_pos # where the agent starts
-                GOAL_POS = self.grid.finish_pos # the end goal
+                START_POS = self.grid.start_pos  # where the agent starts
+                GOAL_POS = self.grid.finish_pos  # the end goal
 
                 # Reset agent to start pos:
                 self.agent.current_pos[0] = START_POS[0]
                 self.agent.current_pos[1] = START_POS[1]
 
                 # Execute all chromosome moves and return the final position of the agent:
-                final_agent_pos = self.execute_chromosome_moves(chromosome, GOAL_POS)
-                if final_agent_pos == GOAL_POS:
+                valid_moves = self.execute_chromosome_moves(chromosome, GOAL_POS)
+                print(valid_moves)
+                if self.agent.current_pos == GOAL_POS:
                     self.current_chromosome = self.current_chromosome + (i + 1)
                     found_path = True
-                    return chromosome
-
+                    return valid_moves
 
                 # Calc this chromosome's fitness and add to the fitness array:
-                fitness_array.append(self.calculate_fitness(final_agent_pos, GOAL_POS))
+                fitness_array.append(self.calculate_fitness(self.agent.current_pos, GOAL_POS))
 
                 i = i + 1
+                print("~~~~~~~~~~~~~~~~~~~~~")
 
             # Select parent chromosomes:
             parents = self.roulette_wheel_select(fitness_array)
@@ -61,9 +65,13 @@ class Pathfinder_Class:
 
     # Executes a chromosomes moves and returns the end position:
     def execute_chromosome_moves(self, CHROMOSOME, GOAL_POS):
+
         index = 0
+        valid_moves = []  # Array with redundant moves removed.
+
         # Execute the genes (moves) in single chromosome, and see what path it takes:
         for GENE in CHROMOSOME:
+
             CURRENT_MOVE = self.population.gene_to_move(GENE)  # Generate next move as array
 
             # Check for out of bounds or obstacle:
@@ -76,29 +84,25 @@ class Pathfinder_Class:
             else:
                 self.agent.current_pos[0] = self.agent.current_pos[0] + CURRENT_MOVE[0]
                 self.agent.current_pos[1] = self.agent.current_pos[1] + CURRENT_MOVE[1]
+                valid_moves.append(GENE)
 
-        # Check if agent has reached the end point (final move only):
-        if self.agent.current_pos == GOAL_POS:
-            return self.agent.current_pos
-
-
-        return self.agent.current_pos
+        return valid_moves
 
     # Calculates the fitness of a single chromosome:
     def calculate_fitness(self, AGENT_CURRENT_POS, GOAL_POS):
         y_offset = abs(GOAL_POS[0] - AGENT_CURRENT_POS[0])
         x_offset = abs(GOAL_POS[1] - AGENT_CURRENT_POS[1])
-        return round((1 / (x_offset + y_offset + 1)),2)
+        return round((1 / (x_offset + y_offset + 1)), 2)
 
     # Roulette wheel chromosome selector - returns an array of indexes for chosen parent chromosomes:
     def roulette_wheel_select(self, FITNESS_ARRAY):
         # Calculate total fitness:
-        total_fitness = round(sum(FITNESS_ARRAY),2)
+        total_fitness = round(sum(FITNESS_ARRAY), 2)
 
         # Calculate probability for each fitness:
         fitness_probabilities = []
         for FITNESS_VALUE in FITNESS_ARRAY:
-            fitness_probabilities.append(round((FITNESS_VALUE / total_fitness) * 100,2))
+            fitness_probabilities.append(round((FITNESS_VALUE / total_fitness) * 100, 2))
 
         # Make array of indexes to reference what chromosomes will be picked:
         chromosome_indexes = [x for x in range(len(FITNESS_ARRAY))]
@@ -116,23 +120,23 @@ class Pathfinder_Class:
     # Takes in an array of 'parent chromosomes' and applies crossover - returning a new generation:
     def crossover(self, parents):
         i = 0
-        next_population = Chromosome_Population_Class(10, 16)
+        next_population = Chromosome_Population_Class(self.population_size, self.chromosome_length)
         new_chromosomes = []
         NUM_OF_OFFSPRING = len(parents)
-        
+
         # for each chromosome pair:
         while i < NUM_OF_OFFSPRING:
 
             # Get the parent pair:
             PARENT1 = parents.pop(0)
             PARENT2 = parents.pop(0)
-            
+
             # Crossover rate (how frequent crossover will occur):
-            CROSSOVER_RATE = 0.7
+            CROSSOVER_RATE = 1
             # Index crossover that crossover will occur:
             MIDWAY_INDEX = int(len(PARENT1) / 2)
 
-            if random.uniform(0,1) <= CROSSOVER_RATE:
+            if random.uniform(0, 1) <= CROSSOVER_RATE:
 
                 # Apply crossover (cross genes of parents):
                 child1 = []
@@ -157,7 +161,7 @@ class Pathfinder_Class:
 
     # Takes an array of chromosomes and applies mutation - returning the mutated chromosomes:
     def mutation(self, new_population):
-        MUTATION_RATE = 0.01
+        MUTATION_RATE = 0.03
 
         # Loop through all genes and randomise some of them depending on the mutation rate:
         for chromosome in range(len(new_population)):
@@ -166,7 +170,6 @@ class Pathfinder_Class:
                     new_population[chromosome][gene] = self.population.gen_gene()
 
         return new_population
-
 
 
 
