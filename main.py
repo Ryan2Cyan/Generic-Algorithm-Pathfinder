@@ -30,20 +30,45 @@ def set_text(message, x_coord, y_coord, fontSize): #Function to set text
 
 def main():
 
+<<<<<<< HEAD
 
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> parent of 3eeca32 (Revert "i) modified fitness function. ii) display path on grid.")
+>>>>>>> b51519a8ebafe9cacdd9efb797ec319c02551bb1
     # Set other parameters here:
     WINDOW_WIDTH = 400                                          # Grid Width
     WINDOW_HEIGHT = 400                                         # Grid Height
     WINDOW_COLOR = Grid_Color.BLACK.value                       # Window Background Color
     TITLE = "A2: Genetic Algorithm Pathfinder"                  # Title
+<<<<<<< HEAD
     GRID_FILE_PATH = "MazeFilesForLab8/Lab8TerrainFile1.txt"    # Grid File
+<<<<<<< HEAD
 
+=======
+=======
+=======
+>>>>>>> parent of b509164 (i) modified fitness function. ii) display path on grid.)
+>>>>>>> b51519a8ebafe9cacdd9efb797ec319c02551bb1
     WINDOW_WIDTH = 400
     WINDOW_HEIGHT = 400
     WINDOW_COLOR = Grid_Color.BLACK.value
     TITLE = "A2: Genetic Algorithm Pathfinder"
     GRID_FILE_PATH = "MazeFilesForLab8/Lab8TerrainFile1.txt"
+<<<<<<< HEAD
 
+=======
+<<<<<<< HEAD
+>>>>>>> 3eeca32859c952e96ddaf59f5c3e04e345082acc
+=======
+    GRID_FILE_PATH = "MazeFilesForLab8/Lab8TerrainFile3.txt"    # Grid File
+>>>>>>> parent of 3eeca32 (Revert "i) modified fitness function. ii) display path on grid.")
+=======
+>>>>>>> parent of b509164 (i) modified fitness function. ii) display path on grid.)
+>>>>>>> b51519a8ebafe9cacdd9efb797ec319c02551bb1
 
     # Init pygame:
     pygame.init()
@@ -75,6 +100,20 @@ def main():
     print(f"Execution Time:", float("{0:.3f}".format(execution_time * 1000)), "ms")
     print("Final Path:", path_chromosome)
     print(f"Execution Time:" ,float("{0:.3f}".format(execution_time * 1000)), "ms")
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> 3eeca32859c952e96ddaf59f5c3e04e345082acc
+
+
+    print("Final Path: ", path)
+=======
+    print("Final Path:", path_chromosome)
+>>>>>>> parent of 3eeca32 (Revert "i) modified fitness function. ii) display path on grid.")
+=======
+>>>>>>> parent of b509164 (i) modified fitness function. ii) display path on grid.)
+>>>>>>> b51519a8ebafe9cacdd9efb797ec319c02551bb1
 
     # Display Loop:
     while True:
