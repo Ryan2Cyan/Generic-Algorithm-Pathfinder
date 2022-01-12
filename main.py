@@ -28,10 +28,9 @@ def set_text(message, x_coord, y_coord, fontSize): #Function to set text
     textRect.top = y_coord
     return (text, textRect)
 
-
-
 def main():
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 =======
@@ -44,15 +43,20 @@ def main():
 <<<<<<< HEAD
     GRID_FILE_PATH = "MazeFilesForLab8/Lab8TerrainFile1.txt"    # Grid File
 =======
+=======
+>>>>>>> parent of b509164 (i) modified fitness function. ii) display path on grid.)
     WINDOW_WIDTH = 400
     WINDOW_HEIGHT = 400
     WINDOW_COLOR = Grid_Color.BLACK.value
     TITLE = "A2: Genetic Algorithm Pathfinder"
     GRID_FILE_PATH = "MazeFilesForLab8/Lab8TerrainFile1.txt"
+<<<<<<< HEAD
 >>>>>>> 3eeca32859c952e96ddaf59f5c3e04e345082acc
 =======
     GRID_FILE_PATH = "MazeFilesForLab8/Lab8TerrainFile3.txt"    # Grid File
 >>>>>>> parent of 3eeca32 (Revert "i) modified fitness function. ii) display path on grid.")
+=======
+>>>>>>> parent of b509164 (i) modified fitness function. ii) display path on grid.)
 
     # Init pygame:
     pygame.init()
@@ -66,12 +70,11 @@ def main():
 
     # Init GA Pathfinder:
     POPULATION_SIZE = 50
-    CHROMOSOME_LENGTH = 6 # Width * Height of grid
+    CHROMOSOME_LENGTH = 40
 
-    # Set GA hyper-parameters here:
     pathfinder = Pathfinder_Class(
-        POPULATION_SIZE,                     # population size
-        CHROMOSOME_LENGTH,                   # chromosome length
+        POPULATION_SIZE, # population size
+        CHROMOSOME_LENGTH, # chromosome length
         file_reader.contents_of_file.pop(0), # grid width
         file_reader.contents_of_file.pop(0), # grid height
         file_reader.contents_of_file,        # grid values (0, 1, 2, or 3)
@@ -81,13 +84,13 @@ def main():
     # Use Pathfinder to get the fitness values for all chromosomes in this population:
     path_chromosome = pathfinder.execute_population()
 
-    # Record Execution Time:
     execution_time = timeit.timeit(lambda: pathfinder.execute_population(), number=1)
 <<<<<<< HEAD
     print(f"Execution Time:", float("{0:.3f}".format(execution_time * 1000)), "ms")
     print("Final Path:", path_chromosome)
 =======
     print(f"Execution Time:" ,float("{0:.3f}".format(execution_time * 1000)), "ms")
+<<<<<<< HEAD
 <<<<<<< HEAD
 >>>>>>> 3eeca32859c952e96ddaf59f5c3e04e345082acc
 
@@ -96,6 +99,8 @@ def main():
 =======
     print("Final Path:", path_chromosome)
 >>>>>>> parent of 3eeca32 (Revert "i) modified fitness function. ii) display path on grid.")
+=======
+>>>>>>> parent of b509164 (i) modified fitness function. ii) display path on grid.)
 
     # Display Loop:
     while True:
