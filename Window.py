@@ -1,3 +1,6 @@
+# Window.py
+# Compiler: Python 3.10
+
 import pygame
 
 class windowClass:

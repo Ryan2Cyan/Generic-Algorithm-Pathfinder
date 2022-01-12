@@ -1,3 +1,6 @@
+# Pathfinder.py
+# Compiler: Python 3.10
+
 import pygame
 import random
 import numpy

@@ -1,3 +1,6 @@
+# ChromosomePopulation.py
+# Compiler: Python 3.10
+
 import random
 
 class Chromosome_Population_Class:

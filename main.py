@@ -1,8 +1,12 @@
+# main.py
+# Compiler: Python 3.10
+
 import pygame
 import sys
 from Window import windowClass
 from FileReader import fileReaderClass
 from Pathfinder import Pathfinder_Class
+from AStarPathfinder import A_Star_Pathfinder_Class
 from Utility import Grid_Color
 import timeit
 
@@ -33,7 +37,7 @@ def main():
     WINDOW_HEIGHT = 400                                         # Grid Height
     WINDOW_COLOR = Grid_Color.BLACK.value                       # Window Background Color
     TITLE = "A2: Genetic Algorithm Pathfinder"                  # Title
-    GRID_FILE_PATH = "MazeFilesForLab8/Lab8TerrainFile3.txt"    # Grid File
+    GRID_FILE_PATH = "MazeFilesForLab8/Lab8TerrainFile1.txt"    # Grid File
 
     # Init pygame:
     pygame.init()
@@ -59,16 +63,18 @@ def main():
         window.screen                        # screen
         )
 
-
     # Use Pathfinder to get the fitness values for all chromosomes in this population:
     path_chromosome = pathfinder.execute_population()
 
     # Record Execution Time:
     execution_time = timeit.timeit(lambda: pathfinder.execute_population(), number=1)
-    print(f"Execution Time:" ,float("{0:.3f}".format(execution_time * 1000)), "ms")
+    print(f"Execution Time:", float("{0:.3f}".format(execution_time * 1000)), "ms")
     print("Final Path:", path_chromosome)
 
-    # Game Loop:
+
+    print("Final Path: ", path)
+
+    # Display Loop:
     while True:
         # print grid:
         pathfinder.grid.draw_rect_array(window.screen)

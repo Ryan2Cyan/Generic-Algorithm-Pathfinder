@@ -1,3 +1,5 @@
+# FileReader.py
+# Compiler: Python 3.10
 
 class fileReaderClass:
 
