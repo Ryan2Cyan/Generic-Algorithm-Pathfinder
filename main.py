@@ -30,20 +30,20 @@ def set_text(message, x_coord, y_coord, fontSize): #Function to set text
 
 def main():
 
-<<<<<<< HEAD
+
     # Set other parameters here:
     WINDOW_WIDTH = 400                                          # Grid Width
     WINDOW_HEIGHT = 400                                         # Grid Height
     WINDOW_COLOR = Grid_Color.BLACK.value                       # Window Background Color
     TITLE = "A2: Genetic Algorithm Pathfinder"                  # Title
     GRID_FILE_PATH = "MazeFilesForLab8/Lab8TerrainFile1.txt"    # Grid File
-=======
+
     WINDOW_WIDTH = 400
     WINDOW_HEIGHT = 400
     WINDOW_COLOR = Grid_Color.BLACK.value
     TITLE = "A2: Genetic Algorithm Pathfinder"
     GRID_FILE_PATH = "MazeFilesForLab8/Lab8TerrainFile1.txt"
->>>>>>> 3eeca32859c952e96ddaf59f5c3e04e345082acc
+
 
     # Init pygame:
     pygame.init()
@@ -72,15 +72,9 @@ def main():
     path_chromosome = pathfinder.execute_population()
 
     execution_time = timeit.timeit(lambda: pathfinder.execute_population(), number=1)
-<<<<<<< HEAD
     print(f"Execution Time:", float("{0:.3f}".format(execution_time * 1000)), "ms")
     print("Final Path:", path_chromosome)
-=======
     print(f"Execution Time:" ,float("{0:.3f}".format(execution_time * 1000)), "ms")
->>>>>>> 3eeca32859c952e96ddaf59f5c3e04e345082acc
-
-
-    print("Final Path: ", path)
 
     # Display Loop:
     while True:
