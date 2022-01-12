@@ -7,6 +7,8 @@ class Agent_Class:
     def __init__(self, STARTING_POS):
         self.current_pos = [[],[]]
         self.starting_pos = STARTING_POS
+        self.path_length = 0
+        self.redundant_steps = 0
 
     # Check if the next move will make the agent out of bounds:
     def is_out_of_bounds(self, MOVE_COORDS, WIDTH, HEIGHT):
